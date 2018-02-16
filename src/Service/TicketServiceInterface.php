@@ -15,4 +15,9 @@ interface TicketServiceInterface
      * @return Ticket
      */
     public function getTicketById(int $ticketId): ?Ticket;
+
+    /**
+     * @param Ticket $ticket
+     */
+    public function create(Ticket $ticket): void;
 }

@@ -2,17 +2,23 @@
 namespace App\Repository;
 
 use App\Entity\Ticket;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class TicketRepository
  * @package App\Repository
  */
-class TicketRepository implements TicketRepositoryInterface
+final class TicketRepository implements TicketRepositoryInterface
 {
 
     /**
-     * @var \Doctrine\Common\Persistence\ObjectRepository
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
+     * @var ObjectRepository
      */
     private $repository;
 
@@ -22,6 +28,7 @@ class TicketRepository implements TicketRepositoryInterface
      */
     public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Ticket::class);
     }
 
@@ -32,5 +39,14 @@ class TicketRepository implements TicketRepositoryInterface
     public function findById(int $id): ?Ticket
     {
         return $this->repository->find($id);
+    }
+
+    /**
+     * @param Ticket $ticket
+     */
+    public function save(Ticket $ticket): void
+    {
+        $this->entityManager->persist($ticket);
+        $this->entityManager->flush();
     }
 }

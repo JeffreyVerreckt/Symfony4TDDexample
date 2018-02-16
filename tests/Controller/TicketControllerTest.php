@@ -2,10 +2,10 @@
 
 namespace App\Tests\Controller;
 
+use App\Service\TicketServiceInterface;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use App\DataFixtures\TicketFixtures;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TicketControllerTest extends WebTestCase
 {
@@ -62,12 +62,18 @@ class TicketControllerTest extends WebTestCase
 
     public function testAddTicketWithAllRequiredFieldsFilledIn()
     {
+        $ticketService = $this->createMock(TicketServiceInterface::class);
+        $ticketService->expects($this->once())
+            ->method('create');
+
+        $this->client->getContainer()->set('test.App\Service\TicketServiceInterface', $ticketService);
+        $this->client->disableReboot();
+
         $crawler = $this->client->request('GET', '/ticket/add');
         $this->assertStatusCode(200, $this->client);
 
         $form = $crawler->selectButton('Submit')->form();
         $form->setValues(['ticket[subject]' => 'My ticket', 'ticket[description]' => 'My ticket description.']);
         $this->client->submit($form);
-        // Todo: finish test
     }
 }

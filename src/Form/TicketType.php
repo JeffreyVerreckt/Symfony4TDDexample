@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  * Class TicketType
  * @package App\Form
  */
-class TicketType extends AbstractType
+final class TicketType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder

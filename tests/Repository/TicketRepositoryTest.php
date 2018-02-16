@@ -2,6 +2,7 @@
 namespace App\Tests\Repository;
 
 use App\DataFixtures\TicketFixtures;
+use App\Entity\Ticket;
 use App\Repository\TicketRepositoryInterface;
 use App\Tests\FixtureAwareTestCase;
 use Doctrine\ORM\EntityManager;
@@ -40,5 +41,17 @@ class TicketRepositoryTest extends FixtureAwareTestCase
 
         $this->assertEquals($ticketId, $ticket->getId());
         $this->assertEquals($ticketSubject, $ticket->getSubject());
+    }
+
+    public function testSave()
+    {
+        $ticket = new Ticket();
+        $ticket->setSubject('Test Subject');
+        $ticket->setDescription('Test desc');
+
+        $this->ticketRepository->save($ticket);
+        $this->entityManager->flush();
+
+        $this->assertNotNull($ticket->getId());
     }
 }

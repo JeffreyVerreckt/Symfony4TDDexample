@@ -15,4 +15,9 @@ interface TicketRepositoryInterface
      * @return Ticket
      */
     public function findById(int $id): ?Ticket;
+
+    /**
+     * @param Ticket $ticket
+     */
+    public function save(Ticket $ticket): void;
 }

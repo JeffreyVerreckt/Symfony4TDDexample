@@ -9,3 +9,4 @@ services:
     # test.App\Service\MyService: '@App\Service\MyService'
 
     test.App\Repository\TicketRepository: '@App\Repository\TicketRepository'
+    test.App\Service\TicketServiceInterface: '@App\Service\TicketServiceInterface'

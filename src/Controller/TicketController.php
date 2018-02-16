@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class TicketController
  * @package App\Controller
  */
-class TicketController extends Controller
+final class TicketController extends Controller
 {
 
     /**
@@ -45,7 +45,8 @@ class TicketController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $ticket = $form->getData();
+            $this->ticketService->create($ticket);
         }
 
         return $this->render('ticket/add.html.twig', [
